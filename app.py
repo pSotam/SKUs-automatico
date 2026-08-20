@@ -13,11 +13,26 @@ def atualizar_arquivo(produtos):
             arquivo.write(produto + '\n')
 
 
+linha()
+print('VERIFICANDO SE HÁ DUPLICATAS:')
+
+produtos_unicos = []
+produtos_duplicados = []
+
+for i in produtos_sem_estoque: #Remove duplicatas
+    if(i not in produtos_unicos):
+        produtos_unicos.append(i)
+    else:
+        produtos_duplicados.append(i)
+produtos_sem_estoque = produtos_unicos
+
+print(f'PRODUTOS DUPLICADOS REMOVIDOS: {len(produtos_duplicados)}')
+
+atualizar_arquivo(produtos_sem_estoque)
+
+
 produtos_filtrados = []
 produtos_apagados = []
-
-
-
 
 linha()
 print('VERIFICANDO SE ALGUM ITEM SEM ESTOQUE JÁ FOI ENVIADO PARA REABASTECER:')
