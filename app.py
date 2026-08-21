@@ -1,3 +1,5 @@
+from time import sleep
+
 def linha():
     print("=" * 20)
 
@@ -23,6 +25,8 @@ def remover_duplicatas(produtos): # Remove SKUs duplicados da lista final
         if produto not in produtos_unicos:
             produtos_unicos.append(produto)
         else:
+            print(f"({produto}) - ESTE ITEM É UMA DUPLICATA. REMOVENDO DA LISTA PRINCIPAL...")
+            sleep(0.05)
             produtos_duplicados.append(produto)
 
     return produtos_unicos, produtos_duplicados
@@ -34,6 +38,8 @@ def remover_enviados(produtos, enviados): # Remove SKUs que já foram enviados p
 
     for produto in produtos:
         if produto in enviados:
+            print(f"({produto}) - ESTE ITEM JÁ FOI ENVIADO. REMOVENDO DA LISTA PRINCIPAL...")
+            sleep(0.05)
             produtos_apagados.append(produto)
         else:
             produtos_filtrados.append(produto)
@@ -64,32 +70,39 @@ produtos_enviados = carregar_produtos("enviados")
 
 programa = 0
 while programa == 0:
-    print('FILTRO DE SKUs')
+    linha()
+    print('     FILTRO DE SKUs     ')
+    print('FUNÇÕES DISPONÍVEIS:\n' \
+    '[ 1 ] Verificar duplicatas\n' \
+    '[ 2 ] Verificar itens já enviados\n' \
+    '[ 3 ] Ver lista final')
+
     funcao = str(input('Escolha a função desejada: '))
 
+    if(funcao == '1'):
+        linha()
+        print("VERIFICANDO SE HÁ DUPLICATAS:")
 
-linha()
-print("VERIFICANDO SE HÁ DUPLICATAS:")
+        produtos_sem_estoque, produtos_duplicados = remover_duplicatas(
+            produtos_sem_estoque
+        )
 
-produtos_sem_estoque, produtos_duplicados = remover_duplicatas(
-    produtos_sem_estoque
-)
+        atualizar_arquivo("produtos", produtos_sem_estoque)
 
-atualizar_arquivo("produtos", produtos_sem_estoque)
+        print(f"PRODUTOS DUPLICADOS REMOVIDOS: {len(produtos_duplicados)}")
 
-print(f"PRODUTOS DUPLICADOS REMOVIDOS: {len(produtos_duplicados)}")
+    elif(funcao == '2'):
+        linha()
+        print("VERIFICANDO SE ALGUM ITEM SEM ESTOQUE JÁ FOI ENVIADO PARA REABASTECER:")
 
-linha()
-print("VERIFICANDO SE ALGUM ITEM SEM ESTOQUE JÁ FOI ENVIADO PARA REABASTECER:")
+        produtos_sem_estoque, produtos_apagados = remover_enviados(
+            produtos_sem_estoque,
+            produtos_enviados
+        )
 
-produtos_sem_estoque, produtos_apagados = remover_enviados(
-    produtos_sem_estoque,
-    produtos_enviados
-)
+        atualizar_arquivo("produtos", produtos_sem_estoque)
 
-atualizar_arquivo("produtos", produtos_sem_estoque)
-
-print(f"ITENS REMOVIDOS: {len(produtos_apagados)}")
+        print(f"ITENS REMOVIDOS: {len(produtos_apagados)}")
 
 mostrar_resultado(
     produtos_sem_estoque,
