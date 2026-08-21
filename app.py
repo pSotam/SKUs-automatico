@@ -12,6 +12,12 @@ def atualizar_sem_estoque(produtos):
         for produto in produtos:
             arquivo.write(produto + '\n')
 
+'''print("COLE A LISTA DE SKU's ABAIXO:")
+texto = str(input())
+produtos_sem_estoque = texto.split(f"\n")
+print(produtos_sem_estoque)'''
+
+
 linha()
 print('VERIFICANDO SE HÁ DUPLICATAS:')
 
