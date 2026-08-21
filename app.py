@@ -196,3 +196,4 @@ while programa == 0:
             produtos_apagados,
             produtos_enviados
         )
+        
