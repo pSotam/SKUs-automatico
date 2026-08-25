@@ -196,4 +196,8 @@ while programa == 0:
             produtos_apagados,
             produtos_enviados
         )
-        
+
+
+#FAZER SISTEMA QUE COLOCA ESSES SKUs NA MENSAGEM FINAL
+    #então meio que o sistema vai passando quais SKUs você realmente usou afinal e coloca numa mensagem
+        #separado por: Comprar; Trazer de SCS.
