@@ -202,57 +202,79 @@ while programa == 0:
     #então meio que o sistema vai passando quais SKUs você realmente usou afinal e coloca numa mensagem
         #separado por: Comprar; Trazer de SCS.
 
-codigos_utilizados = []
-trazer = []
-comprar = []
+def escolher_reabastecimento(sku):
+    """Pergunta onde buscar o produto e retorna 'trazer' ou 'comprar'."""
+    print('Onde pegar produto?\n'
+          '[ 1 ] - São Caetano (SCS)\n'
+          '[ 2 ] - Comprar')
+    movimentacao = str(input('Escolha como reabastecer: ')).strip()
 
-
-contador = 0
-while True:
-    contador += 1
-
-    print('APERTE ENTER PARA FECHAR')
-
-    sku_utilizado = str(input(f"Digite o {contador}º SKU que vai ser enviado: ")).strip()
-
-    if(sku_utilizado == ""):
-        break
-
-    print('Onde pegar produto?\n' \
-    '[ 1 ] - São Caetano (SCS)\n' \
-    '[ 2 ] - Comprar')
-    movimentacao = str(input('Escolha como reabastecer: '))
-
-    if(movimentacao == "1"):
-        trazer.append(sku_utilizado)
-    elif(movimentacao == "2"):
-        comprar.append(sku_utilizado)
+    if movimentacao == "1":
+        return "trazer"
+    elif movimentacao == "2":
+        return "comprar"
     else:
         print('ERRO: OPÇÃO NÃO ENCONTRADA\nADICIONANDO À LISTA PARA COMPRAR')
-        comprar.append(sku_utilizado)
+        return "comprar"
 
-    codigos_utilizados.append(sku_utilizado)
 
-mensagem_personalizada = ""
-while True:
+def coletar_skus():
+    """Coleta os SKUs digitados pelo usuário e separa entre trazer/comprar."""
+    codigos_utilizados = []
+    trazer = []
+    comprar = []
+    contador = 0
+
+    while True:
+        contador += 1
+        print('APERTE ENTER PARA FECHAR')
+
+        sku_utilizado = str(input(f"Digite o {contador}º SKU que vai ser enviado: ")).strip()
+
+        if sku_utilizado == "":
+            break
+
+        destino = escolher_reabastecimento(sku_utilizado)
+
+        if destino == "trazer":
+            trazer.append(sku_utilizado)
+        else:
+            comprar.append(sku_utilizado)
+
+        codigos_utilizados.append(sku_utilizado)
+
+    return codigos_utilizados, trazer, comprar
+
+
+def pedir_mensagem_personalizada():
     print('APERTE ENTER PARA FECHAR')
-    mensagem_personalizada = str(input('Digite uma mensagem personalizada para a mensagem final:'))
-    break
+    return str(input('Digite uma mensagem personalizada para a mensagem final: ')).strip()
 
-# MENSAGEM FINAL
-linha()
-print('Segue a lista de produtos para serem reabastecidos:')
 
-if(len(trazer) > 0):
-    print('Trazer de São Caetano:')
-    for i, sku in enumerate(trazer):
-        print(f"{i + 1} - {sku}")
+def exibir_relatorio(trazer, comprar, mensagem_personalizada):
+    linha()
+    print('Segue a lista de produtos para serem reabastecidos:')
 
-if(len(comprar) > 0):
-    print('Comprar:')
-    for i, sku in enumerate(comprar):
-        print(f"{i + 1} - {sku}")
+    if len(trazer) > 0:
+        print('Trazer de São Caetano:')
+        for i, sku in enumerate(trazer):
+            print(f"{i + 1} - {sku}")
 
-if(mensagem_personalizada != ""):
-    print(mensagem_personalizada)
-linha()
+    if len(comprar) > 0:
+        print('Comprar:')
+        for i, sku in enumerate(comprar):
+            print(f"{i + 1} - {sku}")
+
+    if mensagem_personalizada != "":
+        print(mensagem_personalizada)
+    linha()
+
+
+def main():
+    codigos_utilizados, trazer, comprar = coletar_skus()
+    mensagem_personalizada = pedir_mensagem_personalizada()
+    exibir_relatorio(trazer, comprar, mensagem_personalizada)
+
+
+if __name__ == "__main__":
+    main()
