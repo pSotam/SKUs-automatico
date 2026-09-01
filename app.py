@@ -134,7 +134,7 @@ produtos_enviados = carregar_produtos("enviados")
 produtos_duplicados = []
 produtos_apagados = []
 
-programa = 0
+programa = 1 # 1 para desligar; 0 para rodar
 
 while programa == 0:
 
@@ -201,3 +201,23 @@ while programa == 0:
 #FAZER SISTEMA QUE COLOCA ESSES SKUs NA MENSAGEM FINAL
     #então meio que o sistema vai passando quais SKUs você realmente usou afinal e coloca numa mensagem
         #separado por: Comprar; Trazer de SCS.
+
+codigos_utilizados = []
+
+contador = 0
+while True:
+    contador += 1
+
+    print('APERTE ENTER PARA FECHAR')
+
+    sku_utilizado = str(input(f"Digite o {contador}º SKU que vai ser enviado: ")).strip()
+
+    if(sku_utilizado == ""):
+        break
+
+    codigos_utilizados.append(sku_utilizado)
+
+# MENSAGEM FINAL
+print('Segue a lista de produtos para serem reabastecidos:')
+for i, sku in enumerate(codigos_utilizados):
+    print(f"{i + 1} - {sku}")
