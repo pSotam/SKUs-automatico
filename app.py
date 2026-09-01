@@ -203,6 +203,9 @@ while programa == 0:
         #separado por: Comprar; Trazer de SCS.
 
 codigos_utilizados = []
+trazer = []
+comprar = []
+
 
 contador = 0
 while True:
@@ -215,9 +218,41 @@ while True:
     if(sku_utilizado == ""):
         break
 
+    print('Onde pegar produto?\n' \
+    '[ 1 ] - São Caetano (SCS)\n' \
+    '[ 2 ] - Comprar')
+    movimentacao = str(input('Escolha como reabastecer: '))
+
+    if(movimentacao == "1"):
+        trazer.append(sku_utilizado)
+    elif(movimentacao == "2"):
+        comprar.append(sku_utilizado)
+    else:
+        print('ERRO: OPÇÃO NÃO ENCONTRADA\nADICIONANDO À LISTA PARA COMPRAR')
+        comprar.append(sku_utilizado)
+
     codigos_utilizados.append(sku_utilizado)
 
+mensagem_personalizada = ""
+while True:
+    print('APERTE ENTER PARA FECHAR')
+    mensagem_personalizada = str(input('Digite uma mensagem personalizada para a mensagem final:'))
+    break
+
 # MENSAGEM FINAL
+linha()
 print('Segue a lista de produtos para serem reabastecidos:')
-for i, sku in enumerate(codigos_utilizados):
-    print(f"{i + 1} - {sku}")
+
+if(len(trazer) > 0):
+    print('Trazer de São Caetano:')
+    for i, sku in enumerate(trazer):
+        print(f"{i + 1} - {sku}")
+
+if(len(comprar) > 0):
+    print('Comprar:')
+    for i, sku in enumerate(comprar):
+        print(f"{i + 1} - {sku}")
+
+if(mensagem_personalizada != ""):
+    print(mensagem_personalizada)
+linha()
